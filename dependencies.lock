@@ -1,0 +1,33 @@
+dependencies:
+  espressif/esp_modem:
+    dependencies:
+    - name: idf
+      version: '>=4.1'
+    source:
+      path: /home/george/vscode-cloned/2025-05-webrtc-3G/examples/esp32/components/espressif__esp_modem
+      type: local
+    version: 1.1.0
+  espressif/usb_host_cdc_acm:
+    dependencies: []
+    source:
+      path: /home/george/vscode-cloned/2025-05-webrtc-3G/examples/esp32/components/espressif__usb_host_cdc_acm
+      type: local
+    version: 2.1.0
+  idf:
+    source:
+      type: idf
+    version: 5.4.0
+  sepfy/srtp:
+    dependencies: []
+    source:
+      path: /home/george/vscode-cloned/2025-05-webrtc-3G/examples/esp32/components/sepfy__srtp
+      type: local
+    version: 2.3.0
+direct_dependencies:
+- espressif/esp_modem
+- espressif/usb_host_cdc_acm
+- idf
+- sepfy/srtp
+manifest_hash: 3fd82d73efb3b8019919254ff04d1cfffb04aef56642e73af72ff82b07223149
+target: esp32s3
+version: 2.0.0

@@ -1,0 +1,212 @@
+menu "GSM Configuration"
+
+    choice GSM_SERIAL_CONFIG
+        prompt "Type of serial connection to the modem"
+        default GSM_SERIAL_CONFIG_UART
+        config GSM_SERIAL_CONFIG_UART
+            bool "UART"
+            help
+                Connect to modem via UART.
+        config GSM_SERIAL_CONFIG_USB
+            bool "USB"
+            depends on IDF_TARGET_ESP32S2 || IDF_TARGET_ESP32S3
+            help
+                Connect to modem via USB (CDC-ACM class). For IDF version >= 4.4.
+    endchoice
+
+    choice GSM_MODEM_DEVICE
+        prompt "Choose supported modem device (DCE)"
+        default GSM_MODEM_DEVICE_SIM800
+        help
+            Select modem device connected to the ESP DTE.
+        config GSM_MODEM_DEVICE_SIM800
+            depends on GSM_SERIAL_CONFIG_UART
+            bool "SIM800"
+            help
+                SIMCom SIM800L is a GSM/GPRS module.
+                It supports Quad-band 850/900/1800/1900MHz.
+        config GSM_MODEM_DEVICE_BG96
+            bool "BG96"
+            help
+                Quectel BG96 is a series of LTE Cat M1/Cat NB1/EGPRS module.
+        config GSM_MODEM_DEVICE_SIM7000
+            depends on GSM_SERIAL_CONFIG_UART
+            bool "SIM7000"
+            help
+                SIM7000 is a Multi-Band LTE-FDD and GSM/GPRS/EDGE module.
+        config GSM_MODEM_DEVICE_SIM7070
+            depends on GSM_SERIAL_CONFIG_UART
+            bool "SIM7070"
+            help
+                SIM7070 is Multi-Band CAT M and NB IoT module.
+        config GSM_MODEM_DEVICE_SIM7600
+            bool "SIM7600"
+            help
+                SIM7600 is a Multi-Band LTE-TDD/LTE-FDD/HSPA+ and GSM/GPRS/EDGE module.
+        config GSM_MODEM_DEVICE_SIM7670
+            depends on GSM_SERIAL_CONFIG_USB
+            bool "SIM7670"
+            help
+                SIM7670 is Multi-Band LTE-FDD/LTE-TDD/GSM/GPRS/EDGE module with USB interface.
+        config GSM_MODEM_DEVICE_A7670
+            depends on GSM_SERIAL_CONFIG_USB
+            bool "A7670"
+            help
+                A7670X is Multi-Band LTE-FDD/LTE-TDD/GSM/GPRS/EDGE module.
+    endchoice
+
+    config GSM_MODEM_PPP_APN
+        string "Set MODEM APN"
+        default "hologram"
+        help
+            Set APN (Access Point Name), a logical name to choose data network
+
+    config GSM_MODEM_PPP_AUTH_USERNAME
+        string "Set username for authentication"
+        default "espressif"
+        depends on !GSM_MODEM_PPP_AUTH_NONE
+        help
+            Set username for PPP Authentication.
+
+    config GSM_MODEM_PPP_AUTH_PASSWORD
+        string "Set password for authentication"
+        default "esp32"
+        depends on !GSM_MODEM_PPP_AUTH_NONE
+        help
+            Set password for PPP Authentication.
+
+    config GSM_MODEM_PPP_AUTH_NONE
+        bool "Skip PPP authentication"
+        default n
+        help
+            Set to true for the PPP client to skip authentication
+
+    config GSM_SEND_MSG
+        bool "Short message (SMS)"
+        default n
+        help
+            Select this, the modem will send a short message before power off.
+
+    if GSM_SEND_MSG
+        config GSM_SEND_MSG_PEER_PHONE_NUMBER
+            string "Peer Phone Number (with area code)"
+            default "+8610086"
+            help
+                Enter the peer phone number that you want to send message to.
+    endif
+
+    config GSM_NEED_SIM_PIN
+        bool "SIM PIN needed"
+        default n
+        help
+            Enable to set SIM PIN before starting the example
+
+    config GSM_SIM_PIN
+        string "Set SIM PIN"
+        default "1234"
+        depends on GSM_NEED_SIM_PIN
+        help
+            Pin to unlock the SIM
+
+    menu "UART Configuration"
+        depends on GSM_SERIAL_CONFIG_UART
+        config GSM_MODEM_UART_NO
+            int "UART Number"
+            default 1
+            range 0 3
+            help
+                Number of UART unit.
+
+        config GSM_MODEM_UART_TX_PIN
+            int "TXD Pin Number"
+            default 4
+            range 0 31
+            help
+                Pin number of UART TX.
+
+        config GSM_MODEM_UART_RX_PIN
+            int "RXD Pin Number"
+            default 3
+            range 0 31
+            help
+                Pin number of UART RX.
+
+        config GSM_MODEM_UART_BAUD_RATE
+            int "BAUD_RATE"
+            default 115200
+            help
+                BAUD_RATE of MODEM UART.
+            
+        config GSM_MODEM_UART_RTS_PIN
+            int "RTS Pin Number"
+            default 0
+            range 0 31
+            help
+                Pin number of UART RTS.
+
+        config GSM_MODEM_UART_CTS_PIN
+            int "CTS Pin Number"
+            default 0
+            range 0 31
+            help
+                Pin number of UART CTS.
+
+        config GSM_MODEM_UART_EVENT_TASK_STACK_SIZE
+            int "UART Event Task Stack Size"
+            range 2000 12000
+            default 8192
+            help
+                Stack size of UART event task.
+
+        config GSM_MODEM_UART_EVENT_TASK_PRIORITY
+            int "UART Event Task Priority"
+            range 3 22
+            default 5
+            help
+                Priority of UART event task.
+
+        config GSM_MODEM_UART_EVENT_QUEUE_SIZE
+            int "UART Event Queue Size"
+            range 10 200
+            default 100
+            help
+                Length of UART event queue.
+
+        config GSM_MODEM_UART_PATTERN_QUEUE_SIZE
+            int "UART Pattern Queue Size"
+            range 10 100
+            default 40
+            help
+                Length of UART pattern queue.
+
+        config GSM_MODEM_UART_TX_BUFFER_SIZE
+            int "UART TX Buffer Size"
+            range 256 10000
+            default 4096
+            help
+                Buffer size of UART TX buffer.
+
+        config GSM_MODEM_UART_RX_BUFFER_SIZE
+            int "UART RX Buffer Size"
+            range 256 10000
+            default 8192
+            help
+                Buffer size of UART RX buffer.
+
+        choice GSM_FLOW_CONTROL
+            bool "Set preferred modem control flow"
+            default GSM_FLOW_CONTROL_NONE
+            help
+                Set the modem's preferred control flow
+
+            config GSM_FLOW_CONTROL_NONE
+                bool "No control flow"
+            config GSM_FLOW_CONTROL_SW
+                bool "SW control flow"
+            config GSM_FLOW_CONTROL_HW
+                bool "HW control flow"
+        endchoice
+
+    endmenu
+
+endmenu

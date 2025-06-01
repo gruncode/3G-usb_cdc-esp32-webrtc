@@ -1,0 +1,21 @@
+## IDF Component Manager Manifest File
+dependencies:
+  # Needed as DUT
+  espressif/usb_host_cdc_acm:
+    version: "*"
+
+  # Needed for CDC mock device
+  espressif/esp_tinyusb:
+    version: "*"
+
+  # Following components are not needed, but this way we at least built them in CI
+  espressif/esp_modem_usb_dte:
+    version: "*"
+  espressif/usb_host_vcp:
+    version: "*"
+  espressif/usb_host_ch34x_vcp:
+    version: "*"
+  espressif/usb_host_cp210x_vcp:
+    version: "*"
+  espressif/usb_host_ftdi_vcp:
+    version: "*"

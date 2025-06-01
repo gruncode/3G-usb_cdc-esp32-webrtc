@@ -1,0 +1,23 @@
+# ESP32 WebRTC Camera Viewer
+server {
+    listen 8001 ssl;
+    listen [::]:8001 ssl;
+
+    server_name CLOUD_SERVER_NAME;
+
+    # SSL Configuration
+    ssl_certificate /etc/letsencrypt/live/CLOUD_SERVER_NAME/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/CLOUD_SERVER_NAME/privkey.pem;
+
+    # WebRTC Camera Viewer at /webrtcserver/
+    location /webrtcserver/ {
+        alias /usr/share/nginx/html/webrtcserver/;
+        index index.html;
+        try_files $uri $uri/ =404;
+    }
+
+    # Block all other requests
+    location / {
+        return 404;
+    }
+}
