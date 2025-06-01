@@ -62,7 +62,7 @@ P2P Establishment: Once sufficient candidates are exchanged, peers establish a d
 ###  Seeed XIAO ESP32S3 USB Pinout
 ###  SIM7670 / A7670E Module
 
-![Pinouts](https://github.com/gruncode/3G-usbcdc-esp32-webrtc/blob/main/Modules.png?raw=true)
+![Pinouts](https://github.com/gruncode/3G-usb_cdc-esp32-webrtc/blob/main/Modules.png?raw=true)
 
 > If using UART, set baud rate:
 
