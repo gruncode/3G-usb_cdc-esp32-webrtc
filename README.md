@@ -2,7 +2,7 @@
 
 **Stream JPEG images from ESP32-S3 (Seeed XIAO Sense) to web browsers via WebRTC using PPP over 2G/3G cellular, utilizing USB CDC for connecting esp32 to modem.**
 - Utilizes **ESP32-S3** + **SIM7670** module (USB CDC).
-- Achieves **10+ FPS at 640x480 (VGA)** on 3G.
+- Achieves **10+ FPS at 640x480 (VGA)** on 3G. Much smoother and faster video for the bw.
 - Does NAT traversal with TURN/STUN
 - Implements custom WebRTC signaling server
 - Use USB CDC (much faster than UART) to modem for faster data
